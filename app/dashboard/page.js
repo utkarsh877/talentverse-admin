@@ -46,7 +46,7 @@ const page = () => {
   };
   const getCategories = async () => {
     const { data } = await axios.get(
-      "http://localhost:4000/api/interests/getInterests",
+      "http://43.204.30.49:4000/api/interests/getInterests",
       {
         headers: {
           authorization:
@@ -54,6 +54,7 @@ const page = () => {
         },
       }
     );
+
     setCategory(data.interests);
   };
   const getUserAnalytics = async () => {
