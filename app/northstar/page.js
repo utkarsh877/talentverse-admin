@@ -7,7 +7,7 @@ const page = () => {
   const getNorthStarAnalytics = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:4000/api/analytics/northStarAnalytics",
+        "http://43.204.30.49:4000/api/analytics/northStarAnalytics",
         {
           headers: {
             authorization:
@@ -32,7 +32,7 @@ const page = () => {
           },
         }
       );
-      console.log(data.requests);
+
       setUserData(data.requests);
     } catch (e) {
       console.error(e.message);
@@ -56,19 +56,6 @@ const page = () => {
     const deniedUser = userData.find((user) => user.id === userId);
     setDeniedUsers((prevDeniedUsers) => [...prevDeniedUsers, deniedUser]);
   };
-
-  const usrData = [
-    {
-      name: "Sai Tile",
-      username: "sai_tile",
-      dob: "12JUL98",
-      phoneStatus: "Verified",
-      emailStatus: "Verified",
-      expertCategories: ["Dance", "Music", "Others"],
-      identityCardLink: "Document_Link",
-    },
-    // Add more user data objects as needed
-  ];
 
   return (
     <div className=" bg-slate-50 h-screen">

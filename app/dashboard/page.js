@@ -317,7 +317,7 @@ const page = () => {
                       </h1>
                       <h1 className="text-black font-sm ml-1">Android : </h1>
                       <h3 className="text-blue-900 text-base font-bold text-center ml-2">
-                        {userAnalytics ? userAnalytics[0].Count : 0}
+                        {userAnalytics ? userAnalytics[0].Count : "~"}
                       </h3>
                     </div>
                     <div className="px-5 py-2 flex flex-row">
@@ -326,7 +326,7 @@ const page = () => {
                       </h1>
                       <h1 className="text-black font-sm ml-1"> iOS :</h1>
                       <h3 className="text-blue-900 text-base font-bold text-center ml-2">
-                        {userAnalytics ? userAnalytics[1].Count : 0}
+                        {userAnalytics ? userAnalytics[1].Count : "~"}
                       </h3>
                     </div>
                   </div>

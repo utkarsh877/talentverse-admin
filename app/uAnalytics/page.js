@@ -14,6 +14,21 @@ import {
 
 const page = () => {
   const [analytics, setAnalytics] = useState(null);
+  const [category, setCategory] = useState([]);
+
+  const getCategories = async () => {
+    const { data } = await axios.get(
+      "http://43.204.30.49:4000/api/interests/getInterests",
+      {
+        headers: {
+          authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NGI4YjExYzc2ZjRhZDI1NjdlZDQwZSIsImlhdCI6MTY5OTQ0OTYyMSwiZXhwIjoxNzAyMDQxNjIxfQ.im4Z2jnnGcAJd94VssHNOMZJjaGE16vIXQzxTSttzG4",
+        },
+      }
+    );
+
+    setCategory(data.interests);
+  };
 
   const getUserAnalytics = async () => {
     const { data } = await axios.get(
@@ -32,6 +47,7 @@ const page = () => {
 
   useEffect(() => {
     getUserAnalytics();
+    getCategories();
   }, []);
   return (
     <div className=" bg-slate-50 h-auto pb-10">
@@ -64,12 +80,12 @@ const page = () => {
                   Android
                 </td>
                 <td className=" text-black text-left pl-5">
-                  {analytics ? analytics.OperatingSystem[0].Count : 0}
+                  {analytics ? analytics.OperatingSystem[0].Count : "-"}
                 </td>
                 <td className=" text-green-600 text-left pl-8">
                   {analytics
                     ? analytics.OperatingSystem[0].BounceRate + "%"
-                    : 0}
+                    : "-"}
                 </td>
               </tr>
             </tbody>
@@ -80,12 +96,12 @@ const page = () => {
                   IOS
                 </td>
                 <td className="text-black text-left pl-5">
-                  {analytics ? analytics.OperatingSystem[1].Count : 0}
+                  {analytics ? analytics.OperatingSystem[1].Count : "-"}
                 </td>
                 <td className="text-green-600 text-left pl-8">
                   {analytics
                     ? analytics.OperatingSystem[1].BounceRate + "%"
-                    : 0}
+                    : "-"}
                 </td>
               </tr>
             </tbody>
@@ -112,10 +128,12 @@ const page = () => {
                   Male
                 </td>
                 <td className="text-black text-left pl-5">
-                  {analytics ? analytics.Gender[0].Count : 0}
+                  {analytics ? Math.round(analytics.Gender[0].Count) : "-"}
                 </td>
                 <td className="text-green-600 text-left pl-8">
-                  {analytics ? analytics.Gender[0].BounceRate + "%" : 0}
+                  {analytics
+                    ? Math.round(analytics.Gender[0].BounceRate) + "%"
+                    : "-"}
                 </td>
               </tr>
             </tbody>
@@ -126,10 +144,12 @@ const page = () => {
                   Female
                 </td>
                 <td className="text-black text-left pl-5">
-                  {analytics ? analytics.Gender[1].Count : 0}
+                  {analytics ? analytics.Gender[1].Count : "-"}
                 </td>
                 <td className="text-green-600 text-left pl-8">
-                  {analytics ? analytics.Gender[1].BounceRate + "%" : 0}
+                  {analytics
+                    ? Math.round(analytics.Gender[1].BounceRate) + "%"
+                    : "-"}
                 </td>
               </tr>
             </tbody>
@@ -139,8 +159,8 @@ const page = () => {
                   <FaGenderless className="text-red-400 mt-1 mr-3" />
                   Other
                 </td>
-                <td className="text-black text-left pl-5">0</td>
-                <td className="text-green-600 text-left pl-8">0 %</td>
+                <td className="text-black text-left pl-5">-</td>
+                <td className="text-green-600 text-left pl-8">-</td>
               </tr>
             </tbody>
           </table>
@@ -160,42 +180,19 @@ const page = () => {
                 <th className="text-black text-sm font-normal">Followers</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td className="py-2 text-black text-center">Dance</td>
-                <td className="py-2 text-black text-center pl-5">45,4000</td>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr>
-                <td className="py-2 text-black text-center">Creator</td>
-                <td className="py-2 text-black text-center pl-5">45,4000</td>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr>
-                <td className="py-2 text-black text-center">Guitar</td>
-                <td className="py-2 text-black text-center pl-5">45,4000</td>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr>
-                <td className="py-2 text-black text-center">Music</td>
-                <td className="py-2 text-black text-center pl-5">45,4000</td>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr>
-                <td className="py-2 text-black text-center">Others</td>
-                <td className="py-2 text-black text-center pl-5">45,4000</td>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr>
-                <td className="py-2 text-black text-center">Acting</td>
-                <td className="py-2 text-black text-center pl-5">45,4000</td>
-              </tr>
-            </tbody>
+
+            {category.map((c, i) => {
+              return (
+                <tbody>
+                  <tr>
+                    <td className="py-2 text-black text-center" key={i}>
+                      {c.interest}
+                    </td>
+                    <td className="py-2 text-black text-center pl-5">0</td>
+                  </tr>
+                </tbody>
+              );
+            })}
           </table>
         </div>
 
@@ -211,7 +208,7 @@ const page = () => {
             <div className="flex flex-row px-4 py-2">
               <h3 className="text-gray-700 ">54%</h3>
               <BsDot className="text-yellow-950 mr-3 text-xl" />
-              <h3 className="text-gray-700 ">543445 Users</h3>
+              <h3 className="text-gray-700 ">20 Users</h3>
             </div>
           </div>
 
@@ -220,7 +217,7 @@ const page = () => {
             <div className="flex flex-row px-4 py-2">
               <h3 className="text-gray-700 ">59%</h3>
               <BsDot className="text-yellow-950 mr-3 text-xl" />
-              <h3 className="text-gray-700 ">543445 Users</h3>
+              <h3 className="text-gray-700 ">22 Users</h3>
             </div>
           </div>
         </div>
