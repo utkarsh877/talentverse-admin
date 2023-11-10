@@ -25,6 +25,7 @@ const page = () => {
   const [showModal, setShowModal] = useState(false);
   const [northStarAnalytics, setNorthStarAnalytics] = useState({});
   const [installUninstall, setInstallUninstall] = useState({});
+  const [supportAnalytics, setSupportAnalytics] = useState({});
   const [userAnalytics, setUserAnalytics] = useState(null);
   const [category, setCategory] = useState([]);
   const router = useRouter();
@@ -57,6 +58,7 @@ const page = () => {
 
     setCategory(data.interests);
   };
+
   const getUserAnalytics = async () => {
     const { data } = await axios.get(
       "http://43.204.30.49:4000/api/analytics/userAnalytics",
@@ -84,11 +86,26 @@ const page = () => {
 
     setInstallUninstall({ install: data.installs, uninstall: data.uninstalls });
   };
+  const getSupportAnalytics = async () => {
+    const { data } = await axios.get(
+      "http://43.204.30.49:4000/api/analytics/supportAnalytics",
+      {
+        headers: {
+          authorization:
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NGI4YjExYzc2ZjRhZDI1NjdlZDQwZSIsImlhdCI6MTY5OTQ0OTYyMSwiZXhwIjoxNzAyMDQxNjIxfQ.im4Z2jnnGcAJd94VssHNOMZJjaGE16vIXQzxTSttzG4",
+        },
+      }
+    );
+
+    setSupportAnalytics(data);
+    console.log(supportAnalytics, "support");
+  };
   useEffect(() => {
     getUserAnalytics();
     getNorthStarAnalytics();
     getCategories();
     getInstallUninstall();
+    getSupportAnalytics();
   }, []);
   const handleChangePassword = (
     existingPassword,
@@ -138,11 +155,16 @@ const page = () => {
   return (
     <div className=" bg-slate-50 h-screen">
       <div className="flex px-8 py-8">
-        <h1 className="text-black ml-7 max-h-5 text-2xl font-semibold">
-          Talentverse
+        <img
+          src="favicon.ico"
+          alt="Talentverse Logo"
+          className="w-8 h-8 mr-4"
+        />
+        <h1 className="text-black ml-3 max-h-5 text-2xl font-bold">
+          TALENTVERSE
         </h1>
         <h1 className="text-black ml-20 max-h-5 text-2xl font-semibold">
-          Good Morning, Naveen !
+          Welcome back, Admin !
         </h1>
       </div>
       <div className="flex-row flex ">
@@ -317,10 +339,10 @@ const page = () => {
                   <div className="flex flex-row px-10">
                     <div className="px-2 py-2 flex flex-col border-r border-gray-200">
                       <h1 className="text-black font-extralight">
-                        Number of tickets
+                        Total Tickets
                       </h1>
                       <h3 className="text-blue-900 text-base font-bold text-center">
-                        13335
+                        {supportAnalytics.tickets}
                       </h3>
                     </div>
                     <div className="px-2 py-2 flex flex-col">
@@ -328,7 +350,7 @@ const page = () => {
                         Solved issues
                       </h1>
                       <h3 className="text-blue-900 text-base font-bold text-center">
-                        2690
+                        {supportAnalytics.resolvedTickets}
                       </h3>
                     </div>
                   </div>
